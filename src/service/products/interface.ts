@@ -19,7 +19,7 @@ interface DimensionsI {
   reviewerEmail: string;
   }
   
-  export default interface ProductI {
+  export interface ProductI {
     id: number;
     title: string;
     brand: string;
