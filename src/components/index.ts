@@ -1,4 +1,5 @@
 import Provider from "./Provider";
 import SingleInput from "./inputs/input";
+import Sidebar from "./sidebar/sidebar";
 
-export { Provider, SingleInput };
+export { Provider, SingleInput, Sidebar };
