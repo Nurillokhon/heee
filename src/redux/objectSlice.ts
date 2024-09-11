@@ -1,30 +1,29 @@
-// store/objectSlice.ts
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-interface MyObject {
-  [key: string]: any; // Flexible object type with string keys
+interface UserState {
+  id: string | null;
+  lastName: string | null;
+  image: string | null;
+  firstName: string | null;
 }
 
-interface ObjectState {
-  data: MyObject;
-}
-
-const initialState: ObjectState = {
-  data: {}, // Initial state of the object
+const initialState: UserState = {
+  id: null,
+  lastName: null,
+  image: null,
+  firstName: null
 };
 
-const objectSlice = createSlice({
-  name: 'object',
+export const userSlice = createSlice({
+  name: 'user',
   initialState,
   reducers: {
-    setObject: (state, action: PayloadAction<MyObject>) => {
-      state.data = action.payload; // Sets the entire object
-    },
-    clearObject: (state) => {
-      state.data = {}; // Clears the entire object
+    setUser: (state, action: PayloadAction<UserState>) => {
+      return action.payload;
     },
   },
 });
 
-export const { setObject, clearObject } = objectSlice.actions;
-export default objectSlice.reducer;
+export const { setUser } = userSlice.actions;
+
+export default userSlice.reducer;

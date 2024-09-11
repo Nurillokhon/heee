@@ -3,18 +3,18 @@
 export const PagesTable = [
   {
     name: "Products",
-    path: "/products",
+    path: "/main/products",
   },
   {
     name: "Posts",
-    path: "/posts",
+    path: "/main/posts",
   },
   {
     name: "Users",
-    path: "/users",
+    path: "/main/users",
   },
   {
     name: "Accounts",
-    path: "/accounts",
+    path: "/main/accounts",
   },
 ];

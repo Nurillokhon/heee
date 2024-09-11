@@ -5,6 +5,8 @@ import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { useLogin } from "@/hooks/useLogin";
 import { toast, ToastContainer } from "react-toastify";
+import { useDispatch } from "react-redux";
+import { setUser } from "@/redux/objectSlice";
 
 interface FormData {
   username: string;
@@ -13,6 +15,7 @@ interface FormData {
 
 const Page = () => {
   const router = useRouter();
+  const dispatch = useDispatch();
   const [formData, setFormData] = useState<FormData>({
     username: "",
     password: "",
@@ -32,10 +35,9 @@ const Page = () => {
     if (formData.username && formData.password) {
       mutateAsync(formData)
         .then((data) => {
-          console.log(data);
-
+          localStorage.setItem("me", JSON.stringify(data));
           localStorage.setItem("token", data.token);
-          // router.replace("/");
+          router.replace("/");
         })
         .catch((error) => {
           toast.error(error?.response?.data?.message, {
