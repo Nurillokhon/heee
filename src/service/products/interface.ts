@@ -42,4 +42,4 @@ interface DimensionsI {
     thumbnail: string;
     warrantyInformation: string;
     weight: number;
-  }
+}
