@@ -4,9 +4,10 @@ import Link from "next/link";
 import { PagesTable } from "./pagestable";
 import { useAppSelector } from "@/redux/hooks/hooks";
 import React from "react";
+import { usePathname } from "next/navigation";
 
 export default function Sidebar() {
-  const [data, setData] = React.useState();
+  const pathname = usePathname();
   interface User {
     id: string | null;
     lastName: string | null;
@@ -35,7 +36,13 @@ export default function Sidebar() {
       </div>
       <div className="flex flex-col gap-4 mt-10">
         {PagesTable.map((page) => (
-          <Link href={page.path} key={page.path} className="cursor-pointer">
+          <Link
+            href={page.path}
+            key={page.path}
+            className={`cursor-pointer ${
+              pathname === page.path ? "bg-primary-darkside" : ""
+            }`}
+          >
             <h1 className="text-xl w-full text-white px-4 py-2  hover:bg-primary-darkside transition-colors ">
               {page.name}
             </h1>

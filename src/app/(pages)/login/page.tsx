@@ -5,8 +5,6 @@ import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { useLogin } from "@/hooks/useLogin";
 import { toast, ToastContainer } from "react-toastify";
-import { useDispatch } from "react-redux";
-import { setUser } from "@/redux/objectSlice";
 
 interface FormData {
   username: string;
@@ -14,8 +12,13 @@ interface FormData {
 }
 
 const Page = () => {
+  React.useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      router.replace("/main");
+    }
+  });
   const router = useRouter();
-  const dispatch = useDispatch();
   const [formData, setFormData] = useState<FormData>({
     username: "",
     password: "",
