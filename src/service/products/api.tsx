@@ -3,8 +3,14 @@
 import { useQuery } from "@tanstack/react-query";
 import { axiosInstance } from "..";
 
-const getProducts = (id: string, search?: string) => {
-  const query = id ? id : search ? `/search?q=${search}` : "";
+const getProducts = (id: string, search?: string, category?: string) => {
+  const query = id
+    ? id
+    : search
+    ? `/search?q=${search}`
+    : category
+    ? `/category/${category}`
+    : "";
   return axiosInstance.get(`/products/${query}`);
 };
 

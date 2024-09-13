@@ -15,20 +15,34 @@ export default function Products() {
   const router = useRouter();
   const [searchValue, setSearchValue] = React.useState<string>("");
   const [clickBox, setClickBox] = React.useState<string>("");
+  const [category, setCategory] = React.useState<string>("");
+
+  React.useEffect(() => {
+    if (category === "All") {
+      setClickBox("");
+    }
+  }, [category]);
 
   // navigation
   const navigatePage = (id: number) => {
     router.push(`/main/products/${id}`);
   };
 
-  const fetchProducts = async (search: string): Promise<ProductI[]> => {
-    const { data } = await productsApi.getProducts("", search ? search : "");
+  const fetchProducts = async (
+    search?: string,
+    category?: string
+  ): Promise<ProductI[]> => {
+    const { data } = await productsApi.getProducts(
+      "",
+      search ? search : "",
+      category !== "All" ? category : ""
+    );
     return data.products;
   };
 
   const getProductsQuery = useQuery({
-    queryKey: ["getProductsQuery", clickBox],
-    queryFn: () => fetchProducts(clickBox),
+    queryKey: ["getProductsQuery", clickBox, category],
+    queryFn: () => fetchProducts(clickBox, category),
   });
 
   const getSearch = () => {
@@ -57,7 +71,7 @@ export default function Products() {
           </ButtonGroup>
         </div>
         <div className="mt-4">
-          <CategoryProd />
+          <CategoryProd setCategory={setCategory} />
         </div>
         {getProductsQuery.isLoading && <p>Loading...</p>}
         {getProductsQuery.isError && <p>getProductsQuery.error</p>}

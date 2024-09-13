@@ -5,9 +5,13 @@ import { useQuery } from "@tanstack/react-query";
 import ButtonGroup from "../Button/Button";
 import React, { useRef } from "react";
 
-export default function CategoryProd() {
+interface CategoryProdI {
+  setCategory?: ((category: string) => void | undefined) | undefined;
+}
+
+export default function CategoryProd({ setCategory }: CategoryProdI) {
   const scrollContainerRef = useRef<any>(null);
-  const [active, setactive] = React.useState<string | boolean>("");
+  const [active, setactive] = React.useState<string | boolean>("All");
 
   const handleWheel = (event: any) => {
     if (event.deltaY !== 0) {
@@ -46,6 +50,7 @@ export default function CategoryProd() {
               onClick={(e) => {
                 e.preventDefault();
                 setactive(item);
+                setCategory?.(item);
               }}
               active={active}
             >
