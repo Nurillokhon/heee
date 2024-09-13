@@ -5,25 +5,35 @@ import productsApi from "@/service/products/api";
 import { useQuery } from "@tanstack/react-query";
 import { ProductI } from "@/service/products/interface";
 import Box from "@/components/box/box";
-import { DollarSign } from "react-feather";
+import { DollarSign, Search } from "react-feather";
 import { useRouter } from "next/navigation";
+import { SingleInput } from "@/components";
+import React, { useRef } from "react";
+import ButtonGroup from "@/components/Button/Button";
+import CategoryProd from "@/components/aboutProducts/ProudctsCategory";
 export default function Products() {
   const router = useRouter();
+  const [searchValue, setSearchValue] = React.useState<string>("");
+  const [clickBox, setClickBox] = React.useState<string>("");
 
-  const fetchProducts = async (): Promise<ProductI[]> => {
-    const { data } = await productsApi.getProducts("");
-    return data.products;
-  };
-
-  const getProductsQuery = useQuery({
-    queryKey: ["getProductsQuery"],
-    queryFn: fetchProducts,
-  });
-
+  // navigation
   const navigatePage = (id: number) => {
     router.push(`/main/products/${id}`);
   };
 
+  const fetchProducts = async (search: string): Promise<ProductI[]> => {
+    const { data } = await productsApi.getProducts("", search ? search : "");
+    return data.products;
+  };
+
+  const getProductsQuery = useQuery({
+    queryKey: ["getProductsQuery", clickBox],
+    queryFn: () => fetchProducts(clickBox),
+  });
+
+  const getSearch = () => {
+    setClickBox(searchValue);
+  };
   return (
     <>
       <style jsx>{`
@@ -37,8 +47,20 @@ export default function Products() {
       `}</style>
       <div className="h-screen container m-auto flex flex-col">
         <h1 className="text-center text-2xl font-medium py-2">Product</h1>
+        <div className="w-[300px] flex items-center">
+          <SingleInput
+            placeholder="Search"
+            onChange={(e) => setSearchValue(e.target.value)}
+          />
+          <ButtonGroup onClick={getSearch}>
+            <Search />
+          </ButtonGroup>
+        </div>
+        <div className="mt-4">
+          <CategoryProd />
+        </div>
         {getProductsQuery.isLoading && <p>Loading...</p>}
-        {getProductsQuery.isError && <p>Error loading products.</p>}
+        {getProductsQuery.isError && <p>getProductsQuery.error</p>}
         {getProductsQuery.data && (
           <div className="flex overflow-auto custom-scrollbar">
             <div className="flex justify-evenly items-start flex-wrap gap-4 p-4">
